@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Development PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: simpleclaw-postgres-dev
+    environment:
+      POSTGRES_USER: simpleclaw
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: simpleclaw
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - simpleclaw-dev
+
+  # Development Redis
+  redis:
+    image: redis:7-alpine
+    container_name: simpleclaw-redis-dev
+    ports:
+      - "6379:6379"
+    networks:
+      - simpleclaw-dev
+
+volumes:
+  postgres_dev_data:
+    driver: local
+
+networks:
+  simpleclaw-dev:
+    driver: bridge
